@@ -5,6 +5,24 @@
 	"RadiantSSTrigger"	"trigger_SecretShopRadiant"
 	"DireSSTrigger"		"trigger_SecretShopDire"
 
+	"Avatars"
+	{
+		"1"
+		{
+			"Name" 			"RadiantAvatarSpawner"
+			"Creature"		"npc_sw_boss_avatar"
+			"Location"		"AvatarLocationRadiant"
+			"Team"			"Radiant"
+		}
+		"2"
+		{
+			"Name" 			"RadiantAvatarSpawner"
+			"Creature"		"npc_sw_boss_avatar"
+			"Location"		"AvatarLocationDire"
+			"Team"			"Dire"
+		}
+	}
+
 	"Spawners"
 	{
 		"1"

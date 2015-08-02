@@ -1,10 +1,9 @@
 -- Soul Wars Spawner
--- By Richard Morrison (2015)
--- wigguno@gmail.com
+-- By wigguno
 -- http://steamcommunity.com/id/wigguno/
 
 if SoulWarsSpawner == nil then
-	SoulWarsSpawner = class({})
+	_G.SoulWarsSpawner = class({})
 end
 
 

@@ -7,19 +7,24 @@
 		<include src="file://{resources}/scripts/custom_game/soul_wars_ingame_hud.js" />
 	</scripts>
 	
-	<Panel hittest="false" class="SWHUDRoot">
-		<Panel hittest="false" class="SWHUDContainer">
-			<Panel hittest="false" class="SWHUDAvatarContainer" id="SWHUDAvatarContainerDire">
-				<Label hittest="false" class="SWHUDAvatarLevelText" id="SWHUDAvatarLevelTextRadiant" text="83" />
-			</Panel>
-			<Panel hittest="false" class="SWHUDMonolithContainer">
-				<Panel hittest="false" class="SWHUDMonolithState"   id="SWHUDMonolithDire"> </Panel>
-				<Panel hittest="false" class="SWHUDMonolithState" id="SWHUDMonolithRadiant"> </Panel>
-			</Panel>
-			<Panel hittest="False" class="SWHUDAvatarContainer" id="SWHUDAvatarContainerRadiant" >
-				<Label hittest="false" class="SWHUDAvatarLevelText" id="SWHUDAvatarLevelTextDire" text="21" />
-			</Panel>
-
+	<Panel hittest="false" class="ContainerRoot">
+		<Panel class="AvatarContainer" id="AvatarContainerDire" onmouseover="AddStyle(AvatarContainerHover)" onmouseout="AsyncEvent(1, RemoveStyle(AvatarContainerHover))" >
+			<Label hittest="false" class="AvatarLevelText" 		id="AvatarLevelTextRadiant" 	text="99" />
+			<Label hittest="false" class="AvatarLevelInfo" 		id="AvatarLevelInfoRadiant" 	text="Lvl 99" />
+			<Label hittest="false" class="AvatarHealthInfo" 	id="AvatarHealthInfoRadiant" 	text="HP 100%" />
+			<Label hittest="false" class="AvatarObeliskInfo" 	id="AvatarObeliskInfoRadiant" 	text="OB 50%" />
+			<Label hittest="false" class="AvatarSoulInfo" 		id="AvatarSoulInfoRadiant" 		text="0" />
 		</Panel>
+		<Panel hittest="false" class="MonolithContainer">
+			<Panel hittest="false" class="MonolithState" id="MonolithRadiant"> </Panel>
+		</Panel>
+		<Panel class="AvatarContainer" id="AvatarContainerRadiant" onmouseover="AddStyle(AvatarContainerHover)" onmouseout="AsyncEvent(1, RemoveStyle(AvatarContainerHover))"  >
+			<Label hittest="false" class="AvatarLevelText" 		id="AvatarLevelTextDire" 	text="99" />
+			<Label hittest="false" class="AvatarLevelInfo" 		id="AvatarLevelInfoDire" 	text="Lvl 99" />
+			<Label hittest="false" class="AvatarHealthInfo" 	id="AvatarHealthInfoDire" 	text="HP 100%" />
+			<Label hittest="false" class="AvatarObeliskInfo" 	id="AvatarObeliskInfoDire" 	text="OB 50%" />
+			<Label hittest="false" class="AvatarSoulInfo" 		id="AvatarSoulInfoDire" 	text="0" />
+		</Panel>
+
 	</Panel>
 </root>

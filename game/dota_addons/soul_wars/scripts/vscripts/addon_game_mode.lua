@@ -1,15 +1,19 @@
 -- Soul Wars
--- By Richard Morrison (2015)
--- wigguno@gmail.com
+-- By wigguno
 -- http://steamcommunity.com/id/wigguno/
 
-require ( "soul_wars_spawner" )	
-require ( "debug_menu" )
 require ( "libraries/timers" )
 require ( "libraries/util" )
 
+require ( "soul_wars_spawner" )	
+require ( "soul_wars_avatar" )	
+require ( "debug_menu" )
+
+LinkLuaModifier( "lm_avatar_level_helper", "modifiers/lm_avatar_level_helper.lua", LUA_MODIFIER_MOTION_NONE )
+SOULS_PER_LEVEL = 25
+
 if CSoulWarsGameMode == nil then
-	CSoulWarsGameMode = class({})
+	_G.CSoulWarsGameMode = class({})
 end
 
 function Precache( context )
@@ -28,14 +32,15 @@ end
 function CSoulWarsGameMode:InitGameMode()
 
 	print( "Loading Soul Wars..." )
-	self.bDebug = true
+	self.bDebug = false
 	
 	if self.bDebug then
 		print ("Debug Mode enabled")
+
+		self.dDebugMenu = DebugMenu()
+		self.dDebugMenu:Enable()	
 	end
 	
-	self.dDebugMenu = DebugMenu()
-	self.dDebugMenu:Enable()	
 
 	GameRules:SetPreGameTime( 10.0 )
 	GameRules:SetPostGameTime( 60.0 )
@@ -43,11 +48,6 @@ function CSoulWarsGameMode:InitGameMode()
 	GameRules:SetGoldTickTime( 1.0 )
 	GameRules:SetGoldPerTick( 1 )
 	GameRules:SetCustomGameEndDelay( 0.1 )
-		
-	if self.bDebug then
-		mode = GameRules:GetGameModeEntity()    
-		--mode:SetFogOfWarDisabled(true)
-	end
 
 	Convars:RegisterCommand("sw_reset_cp_count", function(...) return self:CapturePointReset( ... ) end, "Reset the capture point count", FCVAR_CHEAT)
 	Convars:RegisterCommand("sw_spawner_status", function(...) return self:SpawnerStatusReport( ... ) end, "Print status about the Soul Wars Spawners", FCVAR_CHEAT)
@@ -55,11 +55,18 @@ function CSoulWarsGameMode:InitGameMode()
 	-- Read the config files.
 	self:ReadGameConfiguration()
 	self:InitialiseSpawners()
+	self:InitialiseAvatars()
+	self:SpawnVisionDummies()
 
 	-- Initialise the monolith capture point 
-	self.CPValue 	= 0
-	self.CPCapValue = 30
-	self.CPMax 		= 50
+	self.CPValue 		= 0
+	self.CPCapValue 	= 30
+	self.CPMax 			= 50
+	self.RadiantSouls 	= 0
+	self.DireSouls 		= 0
+
+	self.RadiantAvatarHealth 	= 100
+	self.DireAvatarHealth		= 100
 
 	ListenToGameEvent("dota_player_pick_hero", 	Dynamic_Wrap(CSoulWarsGameMode, "OnHeroPick"), self)
 	ListenToGameEvent("last_hit", 				Dynamic_Wrap(CSoulWarsGameMode, "OnLastHit"), self)
@@ -90,13 +97,14 @@ function CSoulWarsGameMode:ReadGameConfiguration()
 	self.sDSSTrigger = kv.DireSSTrigger or ""
 	self.eDSSTrigger = Entities:FindByName(nil, self.sDSSTrigger)
 
-	print(self.sRSSTrigger .. " - Radiant secret shop trigger")
-	print(self.sDSSTrigger .. " - Dire secret shop trigger")
+	--print(self.sRSSTrigger .. " - Radiant secret shop trigger")
+	--print(self.sDSSTrigger .. " - Dire secret shop trigger")
 
-	if self.eRSSTrigger then print("Radiant ss trigger found!") else print("Radiant ss trigger not found!") end
-	if self.eDSSTrigger then print("Dire ss trigger found!") else print("Dire ss trigger not found!") end
+	--if self.eRSSTrigger then print("Radiant ss trigger found!") else print("Radiant ss trigger not found!") end
+	--if self.eDSSTrigger then print("Dire ss trigger found!") else print("Dire ss trigger not found!") end
 
 	self.SpawnerConfig = kv.Spawners
+	self.AvatarConfig = kv.Avatars
 
 end
 
@@ -120,7 +128,39 @@ function CSoulWarsGameMode:InitialiseSpawners()
 			print("ERROR LOADING SPANWER: " .. v.Name)
 		end
 	end
+end
 
+function CSoulWarsGameMode:InitialiseAvatars()
+	if not self.AvatarConfig then
+		print("ERROR: NO AVATAR CONFIG LOADED")
+	end
+
+	self.AvatarList = {}
+
+	for k, v in pairs(self.AvatarConfig) do
+		if self.bDebug then print("Loading avatar: " .. v.Name) end
+		local avatar = SoulWarsAvatar()
+
+		if avatar:Init(v) then 
+			if self.bDebug then print("Avatar loaded succesfully") end
+			avatar:Precache()
+			table.insert(self.AvatarList, avatar)
+		else
+			print("ERROR LOADING AVATAR: " .. v.Name)
+		end
+	end
+end
+
+function CSoulWarsGameMode:SpawnVisionDummies()
+	CreateUnitByName("dummy_vision", Vector(-4096, -2432, 512), false, nil, nil, DOTA_TEAM_GOODGUYS)
+	CreateUnitByName("dummy_vision", Vector(-3584, -2496, 384), false, nil, nil, DOTA_TEAM_GOODGUYS)
+	CreateUnitByName("dummy_vision", Vector(-2624, -1088, 0), false, nil, nil, DOTA_TEAM_GOODGUYS)
+	CreateUnitByName("dummy_vision", Vector(-3684, -1280, 0), false, nil, nil, DOTA_TEAM_GOODGUYS)
+
+	CreateUnitByName("dummy_vision", Vector(4096, 2496, 512), false, nil, nil, DOTA_TEAM_BADGUYS)
+	CreateUnitByName("dummy_vision", Vector(3712, 2560, 384), false, nil, nil, DOTA_TEAM_BADGUYS)
+	CreateUnitByName("dummy_vision", Vector(2624, 1024, 0), false, nil, nil, DOTA_TEAM_BADGUYS)
+	CreateUnitByName("dummy_vision", Vector(3684, 1280, 0), false, nil, nil, DOTA_TEAM_BADGUYS)
 end
 
 --------------------------------------------------------------------------------------------------
@@ -132,6 +172,9 @@ function CSoulWarsGameMode:SpawnerStatusReport()
 	print("Displaying status report")
 	for _, spawner in pairs(self.SpawnerList) do
 		spawner:PrintStatus()
+	end
+	for _, avatar in pairs(self.AvatarList) do
+		avatar:PrintStatus()
 	end
 end
 
@@ -181,7 +224,7 @@ function CSoulWarsGameMode:OnEntityHit(keys)
 
 	--PrintTable(keys)
 	--print("On Entity Hit!")
-
+	if not keys.entindex_attacker then return end
 	local ent_killed 	= EntIndexToHScript(keys.entindex_killed)
 	local ent_attacker 	= EntIndexToHScript(keys.entindex_attacker)
 
@@ -194,7 +237,6 @@ function CSoulWarsGameMode:OnEntityHit(keys)
 			ent_killed.Attacking = true
 		end
 	end
-
 end
 
 --------------------------------------------------------------------------------------------------
@@ -214,6 +256,23 @@ function CSoulWarsGameMode:OnThink()
 		for _, spawner in pairs(self.SpawnerList) do
 			spawner:Think()
 		end		
+
+		for _, avatar in pairs(self.AvatarList) do
+			local avatar_health = avatar:Think()
+			if not avatar_health then
+				if avatar.Team == DOTA_TEAM_GOODGUYS then
+					GameRules:SetGameWinner( DOTA_TEAM_BADGUYS )
+				elseif avatar.Team == DOTA_TEAM_BADGUYS then
+					GameRules:SetGameWinner( DOTA_TEAM_GOODGUYS )
+				end
+			else
+				if avatar.Team == DOTA_TEAM_GOODGUYS then
+					self.RadiantAvatarHealth = avatar_health
+				elseif avatar.Team == DOTA_TEAM_BADGUYS then
+					self.DireAvatarHealth = avatar_health
+				end
+			end
+		end
 		
 		-----------------------------------------------
 		-- KOTH thinking
@@ -274,13 +333,13 @@ function CSoulWarsGameMode:OnThink()
 			-- Take any souls from any radiant players
 			for _, hero in pairs(HeroList:GetAllHeroes()) do
 				if hero:GetTeam() == DOTA_TEAM_GOODGUYS and self.eCPTrigger:IsTouching(hero) and hero:GetModifierStackCount("modifier_soul_shard_count", hero) > 0 then
-					print("Nom, radiant souls")
+					--print("Nom, radiant souls")
+					self.RadiantSouls = self.RadiantSouls + hero:GetModifierStackCount("modifier_soul_shard_count", hero)
 					hero:SetModifierStackCount("modifier_soul_shard_count", hero, 0)
 				end
 			end
 		else
 			self.eRSSTrigger:Disable()
-
 		end
 
 		if self.bDireCaptured == true then
@@ -290,19 +349,36 @@ function CSoulWarsGameMode:OnThink()
 			-- Take any souls from any dire players
 			for _, hero in pairs(HeroList:GetAllHeroes()) do
 				if hero:GetTeam() == DOTA_TEAM_BADGUYS and self.eCPTrigger:IsTouching(hero) and hero:GetModifierStackCount("modifier_soul_shard_count", hero) > 0 then
-					print("Nom, dire souls")
+					--print("Nom, dire souls")
+					self.DireSouls = self.DireSouls + hero:GetModifierStackCount("modifier_soul_shard_count", hero)
 					hero:SetModifierStackCount("modifier_soul_shard_count", hero, 0)
 				end
 			end
-
-
 		else
 			self.eDSSTrigger:Disable()
 		end
 
+		local DireAvatarLevel = 99 - ( self.RadiantSouls / SOULS_PER_LEVEL )
+		local RadiantAvatarLevel = 99 - ( self.DireSouls / SOULS_PER_LEVEL ) 
+
+		for _, avatar in pairs(self.AvatarList) do
+			if avatar.Team == DOTA_TEAM_GOODGUYS and avatar.Level ~= RadiantAvatarLevel then
+				avatar:SetLevel(RadiantAvatarLevel)
+			elseif avatar.Team == DOTA_TEAM_BADGUYS and avatar.level ~= DireAvatarLevel then
+				avatar:SetLevel(DireAvatarLevel)
+			end
+		end
+
 
 		-- Transmit the capture point information to the clients
-		CustomNetTables:SetTableValue( "soul_wars_state", "cp_state", { value = self.CPValue } );
+		CustomNetTables:SetTableValue( "soul_wars_state", "cp_state", { value = self.CPValue} );
+		CustomNetTables:SetTableValue( "soul_wars_state", "soul_count", { radiant_souls = self.RadiantSouls, dire_souls = self.DireSouls} );
+		CustomNetTables:SetTableValue( "soul_wars_state", "avatar_status", { 
+			radiant_avatar_level = RadiantAvatarLevel,
+			radiant_avatar_health = self.RadiantAvatarHealth,
+			dire_avatar_level = DireAvatarLevel,
+			dire_avatar_health = self.DireAvatarHealth,
+			});
 
 	elseif GameRules:State_Get() >= DOTA_GAMERULES_STATE_POST_GAME then
 		return nil

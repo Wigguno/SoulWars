@@ -1,10 +1,10 @@
 -- Panorama Debug Menu
--- Lua Component
--- By Richard Morrison (2015)
+-- By wigguno
 -- http://steamcommunity.com/id/wigguno/
 
+
 if DebugMenu == nil then
-	DebugMenu = class({})
+	_G.DebugMenu = class({})
 end
 
 function DebugMenu:Enable()

@@ -38,7 +38,7 @@
 		{
 			"modifier_hide_health"
 			{
-				"IsHidden"	"0"
+				"IsHidden"	"1"
 				"Passive"	"1"
 
 			   
@@ -46,7 +46,7 @@
 				{
 					"MODIFIER_STATE_NO_HEALTH_BAR"	"MODIFIER_STATE_VALUE_ENABLED"
 					"MODIFIER_STATE_NOT_ON_MINIMAP"	"MODIFIER_STATE_VALUE_ENABLED"
-					//"MODIFIER_STATE_UNSELECTABLE"	"MODIFIER_STATE_VALUE_ENABLED"
+					"MODIFIER_STATE_UNSELECTABLE"	"MODIFIER_STATE_VALUE_ENABLED"
 					"MODIFIER_STATE_INVULNERABLE"	"MODIFIER_STATE_VALUE_ENABLED"
 					
 				}
@@ -68,7 +68,7 @@
 			"01"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"damage_burn_pct"		"8"					
+				"damage_burn_pct"		"5"					
 			}
 
 		}
@@ -129,6 +129,12 @@
 				"var_type"				"FIELD_INTEGER"
 				"dot_duration"			"5"					
 			}
+
+			"03"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"dot_total_damage"		"80"					
+			}
 		}
 
 		"Modifiers"
@@ -136,6 +142,7 @@
 			"modifier_sw_snake_spit"
 			{
 				"Passive"			"1"
+				"IsHidden"			"1"
 
 				"OnAttackLanded"
 				{
