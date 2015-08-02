@@ -1,0 +1,8 @@
+<root>		
+	<Panel>
+		<CustomUIElement type="Hud" layoutfile="file://{resources}/layout/custom_game/soul_wars_ingame_status.xml" />
+		<CustomUIElement type="Hud" layoutfile="file://{resources}/layout/custom_game/wigguno_debug.xml" />
+	</Panel>
+</root>
+
+

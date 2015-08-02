@@ -1,0 +1,197 @@
+// Dota Heroes File
+"DOTAAbilities"
+{
+	"Version"		"1"
+
+	//=================================================================================================================
+	// Helper ability to hold a modifier and trigger some lua scripts
+	//=================================================================================================================
+	"soul_wars_helper"
+	{								 
+		"BaseClass"					"ability_datadriven"		
+		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_HIDDEN"
+		"AbilityTextureName"    	"furion_teleportation"
+		"MaxLevel"					"1"
+				
+
+		"Modifiers"
+		{
+						
+			"modifier_soul_shard_count"
+			{				
+
+				"Passive"			"1"				
+				"TextureName"		"enchantress_impetus"
+			}
+		}	
+	}
+
+	//=================================================================================================================
+	// Healthbar Hider for dummy units
+	//=================================================================================================================
+	"healthbar_hider"
+	{
+		"BaseClass"			"ability_datadriven"
+		"AbilityBehavior"	"DOTA_ABILITY_BEHAVIOR_HIDDEN"
+		
+		"Modifiers"
+		{
+			"modifier_hide_health"
+			{
+				"IsHidden"	"0"
+				"Passive"	"1"
+
+			   
+				"States"
+				{
+					"MODIFIER_STATE_NO_HEALTH_BAR"	"MODIFIER_STATE_VALUE_ENABLED"
+					"MODIFIER_STATE_NOT_ON_MINIMAP"	"MODIFIER_STATE_VALUE_ENABLED"
+					//"MODIFIER_STATE_UNSELECTABLE"	"MODIFIER_STATE_VALUE_ENABLED"
+					"MODIFIER_STATE_INVULNERABLE"	"MODIFIER_STATE_VALUE_ENABLED"
+					
+				}
+			}
+		}
+	}
+
+	// Phoenix burn ability
+	"ability_sw_phoenix_burn"
+	{	
+		"BaseClass"				"ability_datadriven"
+		"AbilityBehavior"		"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"AbilityTextureName"	"phoenix_fire_spirits"
+
+		"MaxLevel"				"1"
+
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"damage_burn_pct"		"8"					
+			}
+
+		}
+
+		"Modifiers"
+		{
+			"modifier_sw_phoenix_burn"
+			{
+				"Passive"			"1"
+
+				"OnAttackLanded"
+				{
+					"Damage"
+					{
+						"Target"							"TARGET"
+						"Type"								"DAMAGE_TYPE_PURE"
+						"Damage"							"%damage_burn_pct"
+						"CurrentHealthPercentBasedDamage"	"1"
+					}
+
+					"AttachEffect"
+					{
+						"Target"			"TARGET"
+						"EffectName"		"particles/units/heroes/hero_batrider/batrider_firefly_debuff.vpcf"
+						"EffectAttachType"	"follow_origin"
+
+					}
+				}
+			}
+		}
+	}
+
+	// Veno dot ability
+	"ability_sw_snake_spit"
+	{
+		"BaseClass"				"ability_datadriven"
+		"AbilityBehavior"		"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"AbilityTextureName"	"venomancer_poison_sting"
+
+		"MaxLevel"				"1"
+
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"dot_damage"			"8"					
+			}
+
+			"02"
+			{
+				"var_type"				"FIELD_FLOAT"
+				"dot_interval"			"0.5"					
+			}
+
+			"03"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"dot_duration"			"5"					
+			}
+		}
+
+		"Modifiers"
+		{
+			"modifier_sw_snake_spit"
+			{
+				"Passive"			"1"
+
+				"OnAttackLanded"
+				{
+					"ApplyModifier"
+					{
+						"Target"		"TARGET"
+						"ModifierName"	"modifier_sw_snake_bite"
+					}
+				}
+			}
+
+			"modifier_sw_snake_bite"
+			{
+				"IsDebuff"		"1"
+				"Duration"		"%dot_duration"
+				"ThinkInterval"	"%dot_interval"
+
+				"OnIntervalThink"
+				{
+					"Damage"
+					{
+						"Target"	"TARGET"
+						"Type"		"DAMAGE_TYPE_MAGICAL"
+						"Damage"	"%dot_damage"
+					}
+				}
+
+			}
+		}
+	}
+	
+	//=================================================================================================================
+	// Ability: Barricade self destruct
+	//=================================================================================================================
+	"barricade_self_destruct"
+	{
+		// General
+		//-------------------------------------------------------------------------------------------------------------
+		//"ID"						"6000"												// unique ID number for this ability.  Do not change this once established or it will invalidate collected stats.												// unique ID number for this ability.  Do not change this once established or it will invalidate collected stats.
+		"BaseClass"					"ability_datadriven"
+		"MaxLevel"					"1"
+		
+		"AbilityType"				"DOTA_ABILITY_TYPE_BASIC"					
+		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET" 
+		"AbilityUnitTargetTeam"		"DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+		"AbilityUnitTargetType"		"DOTA_UNIT_TARGET_BASIC"
+		"AbilityTextureName"		"axe_battle_hunger"
+			
+		"OnSpellStart"
+		{
+			"RunScript"
+			{
+				"ScriptFile"		"soul_wars_abilities.lua"
+				"Function"			"abilityBarricadeDestruct"
+				"Target"			"UNIT"
+			}
+		}
+	}
+}

@@ -1,0 +1,349 @@
+"sw_config_small"
+{
+	
+	"CPTrigger"			"TriggerKOTH"
+	"RadiantSSTrigger"	"trigger_SecretShopRadiant"
+	"DireSSTrigger"		"trigger_SecretShopDire"
+
+	"Spawners"
+	{
+		"1"
+		{
+			"Name"			"RadiantAphidSpawner"
+			"Creature"		"npc_sw_creature_aphid"
+			"Count"			"6"
+			"SoulCount"		"1"
+			"WanderMin"		"5"
+			"WanderMax"		"10"
+
+			"WanderBounds"
+			{
+				"Type"		"Rect"
+				"BL"		"-3968 384"
+				"TR"		"-2176 1090"
+			}
+		}
+		
+		"2"
+		{
+			"Name"			"DireAphidSpawner"
+			"Creature"		"npc_sw_creature_aphid"
+			"Count"			"6"
+			"SoulCount"		"1"
+			"WanderMin"		"5"
+			"WanderMax"		"10"
+			
+			"WanderBounds"
+			{
+				"Type"		"Rect"
+				"BL"		"3840 -384"
+				"TR"		"2048 -1090"
+			}
+		}
+
+		"3"
+		{
+			"Name"			"RadiantSandKingSpawner"
+			"Creature"		"npc_sw_creature_scorpion"
+			"Count"			"6"
+			"SoulCount"		"1"
+			"WanderMin"		"5"
+			"WanderMax"		"10"
+			
+			"WanderBounds"
+			{
+				"Type"		"Rect"
+				"BL"		"-3900 -256"
+				"TR"		"-3280 1792"
+			}
+		}
+		
+		"4"
+		{
+			"Name"			"DireSandKingSpawner"
+			"Creature"		"npc_sw_creature_scorpion"
+			"Count"			"6"
+			"SoulCount"		"1"
+			"WanderMin"		"5"
+			"WanderMax"		"10"
+			
+			"WanderBounds"
+			{
+				"Type"		"Rect"
+				"BL"		"3840 256"
+				"TR"		"3200 -1792"
+			}
+		}
+
+		"5"
+		{
+			"Name"			"RadiantKoboldWorkerSpawner"
+			"Creature" 		"npc_sw_creature_kobold_worker"
+			"Count"			"4"
+			"SoulCount"		"1"
+			"WanderMin"		"2"
+			"WanderMax"		"5"
+
+			"WanderBounds"
+			{
+				"Type"		"Circle"
+				"Center"	"-3456 2304"
+				"Radius"	"384"
+			}
+		}
+		"6"
+		{
+			"Name"			"RadiantKoboldTaskmasterSpawner"
+			"Creature" 		"npc_sw_creature_kobold_taskmaster"
+			"Count"			"2"
+			"SoulCount"		"1"
+			"WanderMin"		"10"
+			"WanderMax"		"20"
+
+			"WanderBounds"
+			{
+				"Type"		"Circle"
+				"Center"	"-3456 2304"
+				"Radius"	"384"
+			}
+		}
+
+		"7"
+		{
+			"Name"			"DireKoboldWorkerSpawner"
+			"Creature" 		"npc_sw_creature_kobold_worker"
+			"Count"			"4"
+			"SoulCount"		"1"
+			"WanderMin"		"2"
+			"WanderMax"		"5"
+
+			"WanderBounds"
+			{
+				"Type"		"Circle"
+				"Center"	"3456 -2304"
+				"Radius"	"384"
+			}
+		}
+		"8"
+		{
+			"Name"			"DireKoboldTaskmasterSpawner"
+			"Creature" 		"npc_sw_creature_kobold_taskmaster"
+			"Count"			"2"
+			"SoulCount"		"1"
+			"WanderMin"		"10"
+			"WanderMax"		"20"
+
+			"WanderBounds"
+			{
+				"Type"		"Circle"
+				"Center"	"3456 -2304"
+				"Radius"	"384"
+			}
+		}
+
+		"9"
+		{
+			"Name"			"RadiantTurtleSpawner1"
+			"Creature" 		"npc_sw_creature_baby_turtle"
+			"Count"			"10"
+			"SoulCount"		"1"
+			"WanderMin"		"2"
+			"WanderMax"		"5"
+
+			"WanderBounds"
+			{
+				"Type"		"Rect"
+				"BL"		"-1600 -1792"
+				"TR"		"-960 512"
+			}
+		}
+		"10"
+		{
+			"Name"			"RadiantTurtleSpawner2"
+			"Creature" 		"npc_sw_creature_baby_turtle"
+			"Count"			"10"
+			"SoulCount"		"1"
+			"WanderMin"		"2"
+			"WanderMax"		"5"
+
+			"WanderBounds"
+			{
+				"Type"		"Rect"
+				"BL"		"-1792 -1600"
+				"TR"		"256 -1216"
+			}
+		}
+		
+		"11"
+		{
+			"Name"			"DireTurtleSpawner1"
+			"Creature" 		"npc_sw_creature_baby_turtle"
+			"Count"			"10"
+			"SoulCount"		"1"
+			"WanderMin"		"10"
+			"WanderMax"		"20"
+
+			"WanderBounds"
+			{
+				"Type"		"Rect"
+				"BL"		"960 -512"
+				"TR"		"1600 1920"
+			}
+		}
+		"12"
+		{
+			"Name"			"DireTurtleSpawner2"
+			"Creature" 		"npc_sw_creature_baby_turtle"
+			"Count"			"10"
+			"SoulCount"		"1"
+			"WanderMin"		"10"
+			"WanderMax"		"20"
+
+			"WanderBounds"
+			{
+				"Type"		"Rect"
+				"BL"		"-192 1216"
+				"TR"		"1728 1600"
+			}
+		}
+
+		"13"
+		{
+			"Name"			"RadiantPhoenixSpawner"
+			"Creature" 		"npc_sw_creature_phoenix"
+			"Count"			"5"
+			"SoulCount"		"3"
+			"WanderMin"		"10"
+			"WanderMax"		"20"
+
+			"WanderBounds"
+			{
+				"Type"		"Circle"
+				"Center"	"-2560 1792"
+				"Radius"	"640"
+			}
+		}
+
+		"14"
+		{
+			"Name"			"DirePhoenixSpawner"
+			"Creature" 		"npc_sw_creature_phoenix"
+			"Count"			"5"
+			"SoulCount"		"3"
+			"WanderMin"		"10"
+			"WanderMax"		"20"
+
+			"WanderBounds"
+			{
+				"Type"		"Circle"
+				"Center"	"2560 -1792"
+				"Radius"	"640"
+			}
+		}
+
+		"15"
+		{
+			"Name"			"RadiantSnakeSpawner"
+			"Creature" 		"npc_sw_creature_snake"
+			"Count"			"8"
+			"SoulCount"		"3"
+			"WanderMin"		"5"
+			"WanderMax"		"10"
+
+			"WanderBounds"
+			{
+				"Type"		"Circle"
+				"Center"	"-1792 1920"
+				"Radius"	"896"
+			}
+		}
+
+		"16"
+		{
+			"Name"			"DireSnakeSpawner"
+			"Creature" 		"npc_sw_creature_snake"
+			"Count"			"8"
+			"SoulCount"		"3"
+			"WanderMin"		"5"
+			"WanderMax"		"10"
+
+			"WanderBounds"
+			{
+				"Type"		"Circle"
+				"Center"	"1792 -1920"
+				"Radius"	"896"
+			}
+		}
+
+		"17"
+		{
+			"Name"			"RadiantDrakeSpawner"
+			"Creature" 		"npc_sw_creature_drake"
+			"Count"			"5"
+			"SoulCount"		"3"
+			"WanderMin"		"5"
+			"WanderMax"		"10"
+
+			"WanderBounds"
+			{
+				"Type"		"Rect"
+				"BL"		"-1216 2048"
+				"TR"		"704 2752"
+			}
+		}
+
+		"18"
+		{
+			"Name"			"DireDrakeSpawner"
+			"Creature" 		"npc_sw_creature_drake"
+			"Count"			"5"
+			"SoulCount"		"3"
+			"WanderMin"		"5"
+			"WanderMax"		"10"
+
+			"WanderBounds"
+			{
+				"Type"		"Rect"
+				"BL"		"-640 -2752"
+				"TR"		"1280 -2048"
+			}
+		}
+
+		"19"
+		{
+			"Name"			"RadiantNianSpawner"
+			"Creature" 		"npc_sw_creature_nian"
+			"Count"			"1"
+			"SoulCount"		"10"
+			"WanderMin"		"5"
+			"WanderMax"		"10"
+
+			"WanderBounds"
+			{
+				"Type"		"Circle"
+				"Center"	"1408 2560"
+				"Radius"	"320"
+			}
+		}
+
+		"20"
+		{
+			"Name"			"DireNianSpawner"
+			"Creature" 		"npc_sw_creature_nian"
+			"Count"			"1"
+			"SoulCount"		"10"
+			"WanderMin"		"5"
+			"WanderMax"		"10"
+
+			"WanderBounds"
+			{
+				"Type"		"Circle"
+				"Center"	"-1408 -2560"
+				"Radius"	"320"
+			}
+		}
+
+
+	}
+
+}

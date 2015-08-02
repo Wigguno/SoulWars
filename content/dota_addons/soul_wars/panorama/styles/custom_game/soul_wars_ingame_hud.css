@@ -1,0 +1,67 @@
+.SWHUDRoot
+{
+	width: 100%;
+	height: 50px;
+	align: center top;
+	margin-top: 70px;
+}
+
+.SWHUDContainer
+{
+	horizontal-align: center;
+	flow-children: right;
+	height: 100%;
+}
+
+.SWHUDAvatarContainer
+{
+	width: 50px;
+	height: 100%;
+	border-radius: 50%;
+	background-color: #00ff0022;    
+}
+
+.SWHUDAvatarLevelText
+{
+	align: center center;
+	color: white;
+	font-size: 24px;
+}
+
+#SWHUDAvatarContainerDire
+{
+	background-color: #aaff0022;  
+}
+
+#SWHUDAvatarContainerRadiant
+{
+	background-color: #ffbb0022;  	
+}
+
+.SWHUDMonolithContainer
+{
+	align: center center;
+	height: 35%;
+	width: 500px;
+	margin-right: 20px;
+	margin-left: 20px;
+}
+
+.SWHUDMonolithState
+{
+	height: 100%;
+}
+
+#SWHUDMonolithDire
+{
+	horizontal-align: right;
+	width: 50%;
+	background-color: red;
+}
+
+#SWHUDMonolithRadiant
+{
+	horizontal-align: left;
+	width: 50%;
+	background-color: green;
+}

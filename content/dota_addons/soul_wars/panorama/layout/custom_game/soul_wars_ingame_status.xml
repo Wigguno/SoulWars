@@ -1,0 +1,25 @@
+<root>
+	<styles>
+		<include src="file://{resources}/styles/custom_game/soul_wars_ingame_hud.css" />
+	</styles>
+	
+	<scripts>
+		<include src="file://{resources}/scripts/custom_game/soul_wars_ingame_hud.js" />
+	</scripts>
+	
+	<Panel hittest="false" class="SWHUDRoot">
+		<Panel hittest="false" class="SWHUDContainer">
+			<Panel hittest="false" class="SWHUDAvatarContainer" id="SWHUDAvatarContainerDire">
+				<Label hittest="false" class="SWHUDAvatarLevelText" id="SWHUDAvatarLevelTextRadiant" text="83" />
+			</Panel>
+			<Panel hittest="false" class="SWHUDMonolithContainer">
+				<Panel hittest="false" class="SWHUDMonolithState"   id="SWHUDMonolithDire"> </Panel>
+				<Panel hittest="false" class="SWHUDMonolithState" id="SWHUDMonolithRadiant"> </Panel>
+			</Panel>
+			<Panel hittest="False" class="SWHUDAvatarContainer" id="SWHUDAvatarContainerRadiant" >
+				<Label hittest="false" class="SWHUDAvatarLevelText" id="SWHUDAvatarLevelTextDire" text="21" />
+			</Panel>
+
+		</Panel>
+	</Panel>
+</root>

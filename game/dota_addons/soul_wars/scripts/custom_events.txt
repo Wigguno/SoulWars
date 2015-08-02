@@ -1,0 +1,63 @@
+// No spaces in event names, max length 32
+// All strings are case sensitive
+//
+// valid data key types are:
+//   string : a zero terminated string
+//   bool   : unsigned int, 1 bit
+//   byte   : unsigned int, 8 bit
+//   short  : signed int, 16 bit
+//   long   : signed int, 32 bit
+//   float  : float, 32 bit
+//   uint64 : unsigned int 64 bit
+//   local  : any data, but not networked to clients
+//
+// following key names are reserved:
+//   local      : if set to 1, event is not networked to clients
+//   unreliable : networked, but unreliable
+//   suppress   : never fire this event
+//   time	: firing server time
+//   eventid	: holds the event ID
+
+"CustomEvents"
+{
+	"sw_update_monolith_state"
+	{
+		"monolith_state"		"short"
+		"monolith_max"			"short"
+		"monolith_thresh"		"short"
+
+		"radiant_owns_monolith"		"bool"
+		"dire_owns_monolith"		"bool"
+
+		"num_radiant_capturing"		"short"
+		"num_dire_capturing"		"short"
+	}
+
+	"sw_radiant_update_soul_score"
+	{
+		"soul_score"			"short"
+	}
+
+	"sw_dire_update_soul_score"
+	{
+		"soul_score"			"short"
+	}
+
+	"sw_dire_update_avatar"
+	{
+		"health_percent"		"short"
+		"avatar_level"			"short"
+	}
+
+	"sw_radiant_update_avatar"
+	{
+		"health_percent"		"short"
+		"avatar_level"			"short"
+	}
+
+	"sw_avatar_test"
+	{
+		"text"				"string" 
+	}	
+}
+

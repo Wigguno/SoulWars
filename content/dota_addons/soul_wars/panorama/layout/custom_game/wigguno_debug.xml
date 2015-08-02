@@ -1,0 +1,56 @@
+<root>
+	<styles>
+		<include src="file://{resources}/styles/custom_game/wigguno_debug.css" />
+	</styles>
+	<scripts>
+		<include src="file://{resources}/scripts/custom_game/wigguno_debug.js" />
+	</scripts>
+	
+	<Panel hittest="false" class="DebugMenuRoot">
+		
+		<Panel hittest="false" class="DebugMenuTitlecontainer">
+			<Button class="DebugMenuTitle" onactivate="ToggleMenu()">
+				<Label hittest="false" class="DebugMenuTitleText" text="Debug Menu" />
+			</Button>
+		</Panel>
+
+		<Panel hittest="false" class="DebugMenuContainer" id="DebugMenuContainer">
+
+			<Panel hittest="false" class="DebugMenuButtonContainer">
+				<Button id="ButtonFogToggle" onactivate="OnToggleFog()" class="DebugMenuButton StartDisabled">
+					<Label class="DebugMenuButtonText" text="Disable Fog"/>
+				</Button>	
+			</Panel>			
+
+			<Panel hittest="false" class="DebugMenuButtonContainer">
+				<Button id="ButtonForceDay" onactivate="OnForceDay()" class="DebugMenuButton StartDisabled">
+					<Label class="DebugMenuButtonText" text="Force Day"/>
+				</Button>	
+			</Panel>
+			
+			<Panel hittest="false" class="DebugMenuButtonContainer">
+				<Button id="ButtonForceNight" onactivate="OnForceNight()" class="DebugMenuButton StartDisabled">
+					<Label class="DebugMenuButtonText" text="Force Night"/>
+				</Button>	
+			</Panel>
+			
+			<Panel hittest="false" class="DebugMenuButtonContainer">
+				<Button id="ButtonDisplayNav" onactivate="OnToggleNav()" class="DebugMenuButton StartDisabled">
+					<Label class="DebugMenuButtonText" text="Enable Nav Grid"/>
+				</Button>	
+			</Panel>
+			
+			<Panel hittest="false" class="DebugMenuButtonContainer">
+				<Button id="ButtonReloadKV" onactivate="ReloadKV()" class="DebugMenuButton SinglePress">
+					<Label class="DebugMenuButtonText" text="Reload KV"/>
+				</Button>	
+			</Panel>
+			
+			<Panel hittest="false" class="DebugMenuButtonContainer">
+				<Button id="ButtonReloadKV" onactivate="WraithCreep()" class="DebugMenuButton SinglePress">
+					<Label class="DebugMenuButtonText" text="Wraithify Creeps"/>
+				</Button>	
+			</Panel>
+		</Panel>				
+	</Panel>
+</root>

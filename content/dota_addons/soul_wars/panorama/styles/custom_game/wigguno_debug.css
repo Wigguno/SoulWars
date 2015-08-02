@@ -1,0 +1,91 @@
+.DebugMenuRoot
+{
+    horizontal-align: right;
+	flow-children: down;
+	margin-top: 50px;
+	margin-right: 5px;
+	padding-bottom: 5px;
+	width: 200px;
+	border: 0px solid black;
+    border-radius: 5px;
+}
+
+.DebugMenuTitlecontainer
+{
+	height: 30px;
+	width: 100%;
+}
+
+.DebugMenuContainer
+{
+	width: 100%;
+	flow-children: down;
+    background-color: gradient( linear, 0% 0%, 0% 100%, from( #42494e ), to( #252525 ) );
+    border-radius: 5px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+	opacity: 0;
+}
+
+.DebugMenuEnabled
+{
+	opacity: 1;
+}
+
+.DebugMenuTitle
+{
+	width: 100%;
+	height: 30px;
+	align: center top;		
+    background-color: gradient( linear, 0% 0%, 0% 100%, from( #42494e ), to( #252525 ) );
+    border-radius: 5px;
+}
+
+.DebugMenuTitleText
+{
+	text-align: center;
+	align: center center;
+	font-size: 22px;
+	font-weight: bold;
+	color: white;
+}
+
+.DebugMenuButtonContainer
+{
+	width: 100%;
+	height: 30px;
+}
+
+.DebugMenuButton
+{
+	align: center center;
+	margin: 2px 5px 2px 5px;
+	width: 100%;
+	height: 100%;
+	
+	border: 2px solid black;
+	border-radius: 15px;
+}
+
+.DebugMenuButtonText
+{
+	text-align: center;
+	align: center center;
+	color: white;
+	font-size: 18px;
+}
+
+.StartEnabled
+{
+	background-color: gradient( linear, 0% 0%, 0% 100%, from( green ), to( black ) );
+}
+
+.StartDisabled
+{
+	background-color: gradient( linear, 0% 0%, 0% 100%, from( red ), to( black ) );
+}
+
+.SinglePress
+{
+	background-color: gradient( linear, 0% 0%, 0% 100%, from( purple ), to( black ) );
+}
