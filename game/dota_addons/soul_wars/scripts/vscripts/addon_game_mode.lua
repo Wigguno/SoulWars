@@ -71,6 +71,7 @@ function CSoulWarsGameMode:InitGameMode()
 	ListenToGameEvent("dota_player_pick_hero", 	Dynamic_Wrap(CSoulWarsGameMode, "OnHeroPick"), self)
 	ListenToGameEvent("last_hit", 				Dynamic_Wrap(CSoulWarsGameMode, "OnLastHit"), self)
 	ListenToGameEvent("entity_hurt", 			Dynamic_Wrap(CSoulWarsGameMode, "OnEntityHit"), self)
+	ListenToGameEvent("entity_killed", 			Dynamic_Wrap(CSoulWarsGameMode, "OnEntityKill"), self)
 
 	GameRules:GetGameModeEntity():SetThink( "OnThink", self, "GlobalThink", 1 )
 
@@ -239,6 +240,22 @@ function CSoulWarsGameMode:OnEntityHit(keys)
 	end
 end
 
+-- player dies
+function CSoulWarsGameMode:OnEntityKill(keys)
+	-- Transfer the killed persons souls to the killer
+	--PrintTable(keys)
+	local attacker = EntIndexToHScript(keys.entindex_attacker)
+	local killed = EntIndexToHScript(keys.entindex_killed)
+	if attacker:IsRealHero() and killed:IsRealHero() then
+		
+		local attacker_souls = attacker:GetModifierStackCount("modifier_soul_shard_count", attacker)
+		local killed_souls = killed:GetModifierStackCount("modifier_soul_shard_count", killed)
+
+		attacker:SetModifierStackCount("modifier_soul_shard_count", attacker, attacker_souls + killed_souls)
+	end
+
+
+end
 --------------------------------------------------------------------------------------------------
 -- Thinker
 --------------------------------------------------------------------------------------------------
