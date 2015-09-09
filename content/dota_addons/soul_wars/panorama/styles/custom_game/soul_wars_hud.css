@@ -47,13 +47,23 @@
 	flow-children: down;
 }
 
-.SWHUDStatusHoverVisible
-{
-	visibility: visible;
-}
-
 .StatusRow{	width: 100%; }
 .StatusRowText {width: 100%; color: white;}
 .StatusRowLeft {text-align: left; margin-left: 10px;}
 .StatusRowRight {text-align: right; margin-right: 10px;}
 .StatusRowMiddle {text-align: center;}
+
+.StatusRowInfoText
+{
+	visibility: collapse;
+}
+
+#StatusInfoText
+{
+	color: #A5ADA2;
+}
+
+.StatusHoverVisible
+{
+	visibility: visible;
+}

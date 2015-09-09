@@ -39,6 +39,10 @@
 				<Label hittest="false" class="StatusRowText StatusRowMiddle" 	id="StatusRowAvatarHealthHealthMiddle" 	text="Avatar HP" />
 				<Label hittest="false" class="StatusRowText StatusRowRight" 	id="StatusRowAvatarHealthDire" 			text="100%" />
 			</Panel>
+
+			<Panel hittest="false" class="StatusRow StatusRowInfoText" id="StatusRowInfoText" >
+				<Label hittest="false" class="StatusRowText StatusRowMiddle" id="StatusInfoText" text="Your Avatar will sell you secret shop items" />
+			</Panel>
 		</Panel>
 	</Panel>
 </root>

@@ -25,11 +25,27 @@ function OnHUDUpdate( table_name, key, data )
 			$("#SWHUDStatusBarText").text = ( 100 - radiant_width) + "%";
 
 		if (data.radiantCaptured == 1)
+		{
 			$("#SWHUDStatusText").text = "Radiant Owned";
+			if (Game.GetLocalPlayerInfo().player_team_id == DOTATeam_t.DOTA_TEAM_GOODGUYS)
+				$("#StatusRowInfoText").SetHasClass("StatusHoverVisible", true);
+			else
+				$("#StatusRowInfoText").SetHasClass("StatusHoverVisible", false);
+
+		}
 		else if (data.direCaptured == 1)
+		{
 			$("#SWHUDStatusText").text = "Dire Owned";
+			if (Game.GetLocalPlayerInfo().player_team_id == DOTATeam_t.DOTA_TEAM_BADGUYS)
+				$("#StatusRowInfoText").SetHasClass("StatusHoverVisible", true);
+			else
+				$("#StatusRowInfoText").SetHasClass("StatusHoverVisible", false);
+		}
 		else
+		{
 			$("#SWHUDStatusText").text = "Unowned";
+			$("#StatusRowInfoText").SetHasClass("StatusHoverVisible", false);
+		}
 
 		$("#StatusRowObeliskRadiant").text = radiant_width + "%";
 		$("#StatusRowObeliskDire").text = (100 - radiant_width) + "%";
@@ -57,12 +73,12 @@ function OnCPUpdate(val)
 
 function OnShowStatus()
 {
-	$("#SWHUDStatusHover").SetHasClass("SWHUDStatusHoverVisible", true);
+	$("#SWHUDStatusHover").SetHasClass("StatusHoverVisible", true);
 }
 
 function OnHideStatus()
 {
-	$("#SWHUDStatusHover").SetHasClass("SWHUDStatusHoverVisible", false);
+	$("#SWHUDStatusHover").SetHasClass("StatusHoverVisible", false);
 }
 
 (function () {
