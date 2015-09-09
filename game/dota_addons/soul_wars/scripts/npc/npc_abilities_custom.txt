@@ -173,6 +173,67 @@
 			}
 		}
 	}
+
+	// Drake Slow Ability
+	"ability_sw_drake_slow"
+	{
+		"BaseClass"				"ability_datadriven"
+		"AbilityBehavior"		"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"AbilityTextureName"	"dragon_knight_elder_dragon_form"
+
+		"MaxLevel"				"1"
+
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"duration"				"10"					
+			}
+
+			"02"
+			{
+				"var_type"				"FIELD_FLOAT"
+				"as_slow"				"-50"					
+			}
+
+			"03"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"ms_slow"				"-50"					
+			}
+		}
+
+		"Modifiers"
+		{
+			"modifier_sw_drake_spit"
+			{
+				"Passive"			"1"
+				"IsHidden"			"1"
+
+				"OnAttackLanded"
+				{
+					"ApplyModifier"
+					{
+						"Target"		"TARGET"
+						"ModifierName"	"modifier_sw_drake_slow"
+					}
+				}
+			}
+
+			"modifier_sw_drake_slow"
+			{
+				"IsDebuff"		"1"
+				"Duration"		"%duration"
+
+				"Properties"
+				{
+					"MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE"	"%ms_slow"
+					"MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT"	"%as_slow"
+				}
+			}
+		}
+	}
 	
 	//=================================================================================================================
 	// Ability: Barricade self destruct

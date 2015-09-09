@@ -63,7 +63,7 @@
 	width: 500px;
 	margin-top: 15px;
 	margin-right: 20px;
-	margin-left: 20px;
+	margin-left: 20px; 
 	background-color: red;
 }
 
@@ -72,8 +72,8 @@
 	horizontal-align: left;
 	background-color: green;
 	height: 100%;
-	width: 1px; 
-	transform: scaleX(500);
+	width: 250px; 
+	transform: scaleX(1);  
 	transition-property: transform;
 	transition-duration: 1s;
 	transition-timing-function: linear;

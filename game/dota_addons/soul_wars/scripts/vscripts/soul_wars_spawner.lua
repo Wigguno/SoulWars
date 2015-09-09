@@ -129,7 +129,7 @@ function SoulWarsSpawner:Think()
 		-- check for any dead creatures and decrement the alive counter
 		local deadcount = 0 -- Record how many are killed to index the array properly
 		for _, creature in pairs(self.CreatureList) do
-			if creature:IsNull() or not creature:IsAlive() then
+			if creature:IsNull() or not creature:IsAlive() or creature:IsDominated() then
 				self.NumAlive = self.NumAlive - 1
 				table.remove(self.CreatureList, _ - deadcount)
 				deadcount = deadcount + 1

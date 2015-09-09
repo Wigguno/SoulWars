@@ -1,0 +1,59 @@
+.SWHUDRoot
+{
+	align: left top;
+	width: 200px;
+
+	margin-top: 60px;
+
+	margin-left: 15px;
+	border: 1px solid black;
+	background-color: #CCCCCC33;
+
+	flow-children: down;
+}
+.SWHUDStatusBar
+{
+	horizontal-align: center;
+	height: 20px;
+	width: 100%;
+	margin: 10px;
+	margin-bottom: 0px;
+	background-color: red;
+	border: 2px solid black;
+}
+.SWHUDStatusBarRadiant
+{
+	align: left center;
+	width: 50%;
+	height: 100%;
+	background-color: green;
+}
+.SWHUDStatusBarText
+{
+	align: center center;
+	font-size: 15px;
+}
+.SWHUDStatusText
+{
+	horizontal-align: center;
+	font-weight: bold;
+	font-size: 24px;
+}
+
+.SWHUDStatusHover
+{
+	width: 100%;
+	visibility: collapse;
+	flow-children: down;
+}
+
+.SWHUDStatusHoverVisible
+{
+	visibility: visible;
+}
+
+.StatusRow{	width: 100%; }
+.StatusRowText {width: 100%; color: white;}
+.StatusRowLeft {text-align: left; margin-left: 10px;}
+.StatusRowRight {text-align: right; margin-right: 10px;}
+.StatusRowMiddle {text-align: center;}

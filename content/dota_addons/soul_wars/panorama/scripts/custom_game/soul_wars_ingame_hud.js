@@ -11,7 +11,8 @@ function OnHUDUpdate( table_name, key, data )
 		var radiant_width = val + 50;
 		var dire_width = (val - 50) * -1;
 		//$.Msg("Radiant Width: " + radiant_width);
-		$("#MonolithRadiant").style.transform = "scaleX(" + (radiant_width * 10) + ");";
+		//$("#MonolithRadiant").style.transform = "scaleX(" + (radiant_width * 10) + ");";
+		$("#MonolithRadiant").style.width = (radiant_width * 5) + "px;";
 
 		$("#AvatarObeliskInfoRadiant").text = "OB " + radiant_width + "%";
 		$("#AvatarObeliskInfoDire").text = "OB " + dire_width + "%";

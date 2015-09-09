@@ -1,0 +1,44 @@
+<root>
+	<styles>
+ 		<include src="s2r://panorama/styles/dotastyles.vcss_c" />
+		<include src="file://{resources}/styles/custom_game/soul_wars_hud.css" />
+	</styles>
+	
+	<scripts>
+		<include src="file://{resources}/scripts/custom_game/soul_wars_hud.js" />
+	</scripts>
+	
+	<Panel class="SWHUDRoot" hittest="false" >
+		<Panel class="SWHUDStatusBar" onmouseover="OnShowStatus()" onmouseout="OnHideStatus()">
+			<Panel hittest="false" class="SWHUDStatusBarRadiant" id="SWHUDStatusBarRadiant" />
+			<Label hittest="false" class="SWHUDStatusBarText" id="SWHUDStatusBarText" text="50%" />
+		</Panel>
+		<Label hittest="false" class="SWHUDStatusText" id="SWHUDStatusText" text="Unowned" />
+
+		<Panel hittest="false" class="SWHUDStatusHover" id="SWHUDStatusHover" >
+			<Panel hittest="false" class="StatusRow StatusRowObeliskPerc" id="StatusRowObeliskPerc" >
+				<Label hittest="false" class="StatusRowText StatusRowLeft" 		id="StatusRowObeliskRadiant" 	text="50%" />
+				<Label hittest="false" class="StatusRowText StatusRowMiddle" 	id="StatusRowObeliskMiddle" 	text="Obelisk" />
+				<Label hittest="false" class="StatusRowText StatusRowRight" 	id="StatusRowObeliskDire" 		text="50%" />
+			</Panel>
+
+			<Panel hittest="false" class="StatusRow StatusRowSoulCount" id="StatusRowSoulCount" >
+				<Label hittest="false" class="StatusRowText StatusRowLeft" 		id="StatusRowSoulCountRadiant" 	text="0" />
+				<Label hittest="false" class="StatusRowText StatusRowMiddle" 	id="StatusRowSoulCountMiddle" 	text="Soul Count" />
+				<Label hittest="false" class="StatusRowText StatusRowRight" 	id="StatusRowSoulCountDire" 	text="0" />
+			</Panel>
+
+			<Panel hittest="false" class="StatusRow StatusRowAvatarLevel" id="StatusRowAvatarLevel" >
+				<Label hittest="false" class="StatusRowText StatusRowLeft" 		id="StatusRowAvatarLevelRadiant" 	text="99" />
+				<Label hittest="false" class="StatusRowText StatusRowMiddle" 	id="StatusRowAvatarLevelMiddle" 	text="Avatar Level" />
+				<Label hittest="false" class="StatusRowText StatusRowRight" 	id="StatusRowAvatarLevelDire" 		text="99" />
+			</Panel>
+
+			<Panel hittest="false" class="StatusRow StatusRowAvatarHealth" id="StatusRowAvatarHealth" >
+				<Label hittest="false" class="StatusRowText StatusRowLeft" 		id="StatusRowAvatarHealthRadiant" 		text="100%" />
+				<Label hittest="false" class="StatusRowText StatusRowMiddle" 	id="StatusRowAvatarHealthHealthMiddle" 	text="Avatar HP" />
+				<Label hittest="false" class="StatusRowText StatusRowRight" 	id="StatusRowAvatarHealthDire" 			text="100%" />
+			</Panel>
+		</Panel>
+	</Panel>
+</root>

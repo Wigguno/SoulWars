@@ -18,6 +18,10 @@ end
 
 function Precache( context )
 	--PrecacheResource( "model", "models/props_debris/spike_fence_fx_b.vmdl", context)
+	PrecacheResource( "particle", "particles/econ/items/shadow_fiend/sf_fire_arcana/sf_fire_arcana_necro_souls_hero.vpcf", context)
+	PrecacheResource( "particle", "particles/units/heroes/hero_terrorblade/terrorblade_sunder.vpcf", context)
+	PrecacheResource( "soundfile", "sounds/weapons/hero/terrorblade/sunder_cast.vsnd", context)
+	PrecacheResource( "soundfile", "sounds/weapons/hero/terrorblade/sunder_target.vsnd", context)
 end
 
 -- Create the game mode when we activate
@@ -49,6 +53,14 @@ function CSoulWarsGameMode:InitGameMode()
 	GameRules:SetGoldPerTick( 1 )
 	GameRules:SetCustomGameEndDelay( 0.1 )
 
+	if GetMapName() == "small" then
+		GameRules:SetCustomGameTeamMaxPlayers(DOTA_TEAM_GOODGUYS, 5)
+		GameRules:SetCustomGameTeamMaxPlayers(DOTA_TEAM_BADGUYS, 5)
+	elseif GetMapName() == "large" then
+		GameRules:SetCustomGameTeamMaxPlayers(DOTA_TEAM_GOODGUYS, 12)
+		GameRules:SetCustomGameTeamMaxPlayers(DOTA_TEAM_BADGUYS, 12)
+	end
+
 	Convars:RegisterCommand("sw_reset_cp_count", function(...) return self:CapturePointReset( ... ) end, "Reset the capture point count", FCVAR_CHEAT)
 	Convars:RegisterCommand("sw_spawner_status", function(...) return self:SpawnerStatusReport( ... ) end, "Print status about the Soul Wars Spawners", FCVAR_CHEAT)
 
@@ -72,6 +84,12 @@ function CSoulWarsGameMode:InitGameMode()
 	ListenToGameEvent("last_hit", 				Dynamic_Wrap(CSoulWarsGameMode, "OnLastHit"), self)
 	ListenToGameEvent("entity_hurt", 			Dynamic_Wrap(CSoulWarsGameMode, "OnEntityHit"), self)
 	ListenToGameEvent("entity_killed", 			Dynamic_Wrap(CSoulWarsGameMode, "OnEntityKill"), self)
+
+	-- stop the avatars being attacked outside their pits using these two filters
+	local mode = GameRules:GetGameModeEntity()
+	mode:SetExecuteOrderFilter( Dynamic_Wrap (CSoulWarsGameMode, "ExecuteOrderFilter" ), self )
+	mode:SetDamageFilter( Dynamic_Wrap (CSoulWarsGameMode, "DamageFilter" ), self )
+
 
 	GameRules:GetGameModeEntity():SetThink( "OnThink", self, "GlobalThink", 1 )
 
@@ -197,12 +215,16 @@ function CSoulWarsGameMode:OnLastHit(keys)
 		local newstack = oldstack + creep.SoulBounty
 
 		heroKiller:SetModifierStackCount("modifier_soul_shard_count", nil, newstack)
+
+		local soulPart = ParticleManager:CreateParticle("particles/econ/items/shadow_fiend/sf_fire_arcana/sf_fire_arcana_necro_souls_hero.vpcf", PATTACH_POINT_FOLLOW, heroKiller)
+		ParticleManager:SetParticleControlEnt(soulPart, 0, creep, PATTACH_POINT_FOLLOW, "attach_hitloc", heroKiller:GetAbsOrigin(), true)
+		ParticleManager:SetParticleControlEnt(soulPart, 1, heroKiller, PATTACH_POINT_FOLLOW, "attach_hitloc", heroKiller:GetAbsOrigin(), true)
 	end
 end
 
 -- NPC First Spawn
 function CSoulWarsGameMode:OnHeroPick(keys)
-	PrintTable(keys)
+	--PrintTable(keys)
 	local hero 		= EntIndexToHScript(keys.heroindex)
 	local player 	= EntIndexToHScript(keys.player)
 
@@ -247,15 +269,96 @@ function CSoulWarsGameMode:OnEntityKill(keys)
 	local attacker = EntIndexToHScript(keys.entindex_attacker)
 	local killed = EntIndexToHScript(keys.entindex_killed)
 	if attacker:IsRealHero() and killed:IsRealHero() then
-		
+
 		local attacker_souls = attacker:GetModifierStackCount("modifier_soul_shard_count", attacker)
 		local killed_souls = killed:GetModifierStackCount("modifier_soul_shard_count", killed)
 
 		attacker:SetModifierStackCount("modifier_soul_shard_count", attacker, attacker_souls + killed_souls)
+		
+		local soulPart = ParticleManager:CreateParticle("particles/econ/items/shadow_fiend/sf_fire_arcana/sf_fire_arcana_necro_souls_hero.vpcf", PATTACH_POINT_FOLLOW, attacker)
+		ParticleManager:SetParticleControlEnt(soulPart, 0, killed, PATTACH_POINT_FOLLOW, "attach_hitloc", attacker:GetAbsOrigin(), true)
+		ParticleManager:SetParticleControlEnt(soulPart, 1, attacker, PATTACH_POINT_FOLLOW, "attach_hitloc", attacker:GetAbsOrigin(), true)
 	end
 
 
 end
+
+-- obelisk takes souls (effect function)
+function CSoulWarsGameMode:sunder(hero)
+			
+	EmitSoundOn("Hero_Terrorblade.Sunder.Cast", hero)
+	EmitSoundOn("Hero_Terrorblade.Sunder.Target", hero)
+
+	-- Show the particle caster-> target
+	local particleName = "particles/units/heroes/hero_terrorblade/terrorblade_sunder.vpcf"	
+	local particle = ParticleManager:CreateParticle( particleName, PATTACH_POINT_FOLLOW, hero )
+	
+	ParticleManager:SetParticleControl(particle, 0, Vector(0, 0, 768))
+	ParticleManager:SetParticleControlEnt(particle, 1, hero, PATTACH_POINT_FOLLOW, "attach_hitloc", hero:GetAbsOrigin(), true)
+	
+	-- Show the particle target-> caster
+	local particleName = "particles/units/heroes/hero_terrorblade/terrorblade_sunder.vpcf"	
+	local particle = ParticleManager:CreateParticle( particleName, PATTACH_POINT_FOLLOW, hero )
+	
+	ParticleManager:SetParticleControlEnt(particle, 0, hero, PATTACH_POINT_FOLLOW, "attach_hitloc", hero:GetAbsOrigin(), true)
+	ParticleManager:SetParticleControl(particle, 1, Vector(0, 0, 768))
+end
+
+--------------------------------------------------------------------------------------------------
+-- Order Filter
+--------------------------------------------------------------------------------------------------
+
+function CSoulWarsGameMode:ExecuteOrderFilter(filterTable)
+
+	--print("-------------------------------------------------")
+	--PrintTable(filterTable)
+
+	if filterTable.order_type == DOTA_UNIT_ORDER_ATTACK_TARGET or filterTable.order_type == DOTA_UNIT_ORDER_CAST_TARGET then 
+
+		local order_unit = EntIndexToHScript(filterTable.units['0'])
+		local target_unit = EntIndexToHScript(filterTable.entindex_target)
+
+		if target_unit.unitType and target_unit.unitType == "Avatar" then
+			local attackTrigger = Entities:FindByName(nil, target_unit.attackTrigger)
+			if not attackTrigger:IsTouching(order_unit) then
+				return false
+			end
+		end
+	end
+	
+	return true
+
+end
+
+--------------------------------------------------------------------------------------------------
+-- Damage Filter
+--------------------------------------------------------------------------------------------------
+
+function CSoulWarsGameMode:DamageFilter(filterTable)
+
+	--print("-------------------------------------------------")
+	--PrintTable(filterTable)
+
+	if filterTable.entindex_attacker_const == nil then return true end
+
+	local attack_unit = EntIndexToHScript(filterTable.entindex_attacker_const)
+	local target_unit = EntIndexToHScript(filterTable.entindex_victim_const)
+
+	if target_unit.unitType and target_unit.unitType == "Avatar" then
+
+		local attackTrigger = Entities:FindByName(nil, target_unit.attackTrigger)
+
+		--print("DAMAGE TO AVATAR")
+		--print (attackTrigger:IsTouching(attack_unit)) 
+		if not attackTrigger:IsTouching(attack_unit) then
+			return false
+		end
+	end
+
+	return true
+
+end
+
 --------------------------------------------------------------------------------------------------
 -- Thinker
 --------------------------------------------------------------------------------------------------
@@ -353,6 +456,8 @@ function CSoulWarsGameMode:OnThink()
 					--print("Nom, radiant souls")
 					self.RadiantSouls = self.RadiantSouls + hero:GetModifierStackCount("modifier_soul_shard_count", hero)
 					hero:SetModifierStackCount("modifier_soul_shard_count", hero, 0)
+
+					self:sunder(hero)
 				end
 			end
 		else
@@ -369,6 +474,8 @@ function CSoulWarsGameMode:OnThink()
 					--print("Nom, dire souls")
 					self.DireSouls = self.DireSouls + hero:GetModifierStackCount("modifier_soul_shard_count", hero)
 					hero:SetModifierStackCount("modifier_soul_shard_count", hero, 0)
+
+					self:sunder(hero)
 				end
 			end
 		else
@@ -378,6 +485,9 @@ function CSoulWarsGameMode:OnThink()
 		local DireAvatarLevel = 99 - ( self.RadiantSouls / SOULS_PER_LEVEL )
 		local RadiantAvatarLevel = 99 - ( self.DireSouls / SOULS_PER_LEVEL ) 
 
+		if DireAvatarLevel < 1 then DireAvatarLevel = 1 end
+		if RadiantAvatarLevel < 1 then RadiantAvatarLevel = 1 end
+		
 		for _, avatar in pairs(self.AvatarList) do
 			if avatar.Team == DOTA_TEAM_GOODGUYS and avatar.Level ~= RadiantAvatarLevel then
 				avatar:SetLevel(RadiantAvatarLevel)
@@ -388,7 +498,7 @@ function CSoulWarsGameMode:OnThink()
 
 
 		-- Transmit the capture point information to the clients
-		CustomNetTables:SetTableValue( "soul_wars_state", "cp_state", { value = self.CPValue} );
+		CustomNetTables:SetTableValue( "soul_wars_state", "cp_state", { value = self.CPValue, radiantCaptured = self.bRadiantCaptured, direCaptured = self.bDireCaptured} );
 		CustomNetTables:SetTableValue( "soul_wars_state", "soul_count", { radiant_souls = self.RadiantSouls, dire_souls = self.DireSouls} );
 		CustomNetTables:SetTableValue( "soul_wars_state", "avatar_status", { 
 			radiant_avatar_level = RadiantAvatarLevel,

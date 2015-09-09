@@ -12,6 +12,8 @@ function SoulWarsAvatar:Init( kv )
 	local spawnerEnt = Entities:FindByName(nil, kv.Location)
 	self.SpawnLocation = spawnerEnt:GetAbsOrigin()
 
+	self.attackTrigger = kv.Trigger
+
 	self.Creature = kv.Creature
 	self.Name = kv.Name
 
@@ -52,6 +54,8 @@ function SoulWarsAvatar:DoSpawn()
 	-- Spawn a single unit
 	self.entUnit = CreateUnitByName( self.Creature, self.SpawnLocation, true, nil, nil, self.Team )
 	self:SetLevel(self.Level)
+	self.entUnit.unitType = "Avatar"
+	self.entUnit.attackTrigger = self.attackTrigger
 end
 
 function SoulWarsAvatar:Think()
@@ -67,6 +71,17 @@ function SoulWarsAvatar:Think()
 		if self.entUnit:IsNull() or not self.entUnit:IsAlive() then
 			return false
 		end
+
+		local attackTrigger = Entities:FindByName(nil, self.attackTrigger)
+		
+		if not attackTrigger:IsTouching(self.entUnit) then
+		--if (self.entUnit:GetAbsOrigin() - self.SpawnLocation):Length2D() > 512 then
+			--print("TP BACK TO SPAWN")
+			self.entUnit:MoveToPosition(self.SpawnLocation)
+		else
+			--print("POSITION IS OKAY")
+		end
+
 	end
 	return self.entUnit:GetHealthPercent()
 end
