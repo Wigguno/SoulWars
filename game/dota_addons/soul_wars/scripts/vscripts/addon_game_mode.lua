@@ -127,11 +127,11 @@ function CSoulWarsGameMode:ReadGameConfiguration()
 	self.eWLDire = Entities:FindByName(nil, self.sWLDire)
 
 	if self.sWLDefault ~= "" and self.sWLRadiant ~= "" and self.sWLDire ~= "" then
-		print("World Layers Enabled!")
+		if self.bDebug then print("World Layers Enabled!") end
 		self.ActiveWorldLayer = self.sWLDefault
 		self.WorldLayersEnabled = true
 	else
-		print("World Layers Disabled!")
+		if self.bDebug then print("World Layers Disabled!") end
 		self.WorldLayersEnabled = false
 	end
 
@@ -375,7 +375,13 @@ function CSoulWarsGameMode:ExecuteOrderFilter(filterTable)
 			else 
 				target_unit.lifestealer_infested = true
 			end 
+		end
 
+		-- clinkz_death_pact
+		if abilityName == "clinkz_death_pact" then
+			if target_level > 4 then 
+				return false 
+			end 
 		end
 
 
