@@ -2,15 +2,11 @@
 
 {
 
-	addontitle "Soul Wars"
-	maps	"large small"		
+	"addontitle" 	"Soul Wars"
+	"maps"			"small"		
 	"IsPlayable"	"1"
 	"small"
 	{
 					"MaxPlayers"                    "10"
-	}
-	"large"
-	{
-					"MaxPlayers"                    "24"
 	}
 }

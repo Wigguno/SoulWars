@@ -167,8 +167,8 @@
 			"Creature" 		"npc_sw_creature_baby_turtle"
 			"Count"			"10"
 			"SoulCount"		"1"
-			"WanderMin"		"2"
-			"WanderMax"		"5"
+			"WanderMin"		"20"
+			"WanderMax"		"30"
 
 			"WanderBounds"
 			{
@@ -183,8 +183,8 @@
 			"Creature" 		"npc_sw_creature_baby_turtle"
 			"Count"			"10"
 			"SoulCount"		"1"
-			"WanderMin"		"2"
-			"WanderMax"		"5"
+			"WanderMin"		"20"
+			"WanderMax"		"30"
 
 			"WanderBounds"
 			{
@@ -200,8 +200,8 @@
 			"Creature" 		"npc_sw_creature_baby_turtle"
 			"Count"			"10"
 			"SoulCount"		"1"
-			"WanderMin"		"10"
-			"WanderMax"		"20"
+			"WanderMin"		"20"
+			"WanderMax"		"30"
 
 			"WanderBounds"
 			{
@@ -216,8 +216,8 @@
 			"Creature" 		"npc_sw_creature_baby_turtle"
 			"Count"			"10"
 			"SoulCount"		"1"
-			"WanderMin"		"10"
-			"WanderMax"		"20"
+			"WanderMin"		"20"
+			"WanderMax"		"30"
 
 			"WanderBounds"
 			{

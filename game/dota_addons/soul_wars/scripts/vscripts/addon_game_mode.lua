@@ -2,6 +2,12 @@
 -- By wigguno
 -- http://steamcommunity.com/id/wigguno/
 
+if CSoulWarsGameMode == nil then
+	_G.CSoulWarsGameMode = class({})
+end
+
+_G.SOULS_PER_LEVEL = 25
+
 require ( "libraries/timers" )
 require ( "libraries/util" )
 
@@ -10,11 +16,6 @@ require ( "soul_wars_avatar" )
 require ( "debug_menu" )
 
 LinkLuaModifier( "lm_avatar_level_helper", "modifiers/lm_avatar_level_helper.lua", LUA_MODIFIER_MOTION_NONE )
-SOULS_PER_LEVEL = 25
-
-if CSoulWarsGameMode == nil then
-	_G.CSoulWarsGameMode = class({})
-end
 
 function Precache( context )
 	--PrecacheResource( "model", "models/props_debris/spike_fence_fx_b.vmdl", context)
@@ -115,6 +116,24 @@ function CSoulWarsGameMode:ReadGameConfiguration()
 
 	self.sDSSTrigger = kv.DireSSTrigger or ""
 	self.eDSSTrigger = Entities:FindByName(nil, self.sDSSTrigger)
+
+	self.sWLDefault = kv.WorldLayerDefault or ""
+	self.eWLDefault = Entities:FindByName(nil, self.sWLDefault)
+
+	self.sWLRadiant = kv.WorldLayerRadiant or ""
+	self.eWLRadiant = Entities:FindByName(nil, self.sWLRadiant)
+
+	self.sWLDire = kv.WorldLayerDire or ""
+	self.eWLDire = Entities:FindByName(nil, self.sWLDire)
+
+	if self.sWLDefault ~= "" and self.sWLRadiant ~= "" and self.sWLDire ~= "" then
+		print("World Layers Enabled!")
+		self.ActiveWorldLayer = self.sWLDefault
+		self.WorldLayersEnabled = true
+	else
+		print("World Layers Disabled!")
+		self.WorldLayersEnabled = false
+	end
 
 	--print(self.sRSSTrigger .. " - Radiant secret shop trigger")
 	--print(self.sDSSTrigger .. " - Dire secret shop trigger")
@@ -236,7 +255,6 @@ function CSoulWarsGameMode:OnHeroPick(keys)
 			abil:SetLevel(1)
 		end
 	end
-	--soul_wars_helper
 end
 
 -- Unit is hit
@@ -313,7 +331,7 @@ function CSoulWarsGameMode:ExecuteOrderFilter(filterTable)
 	--print("-------------------------------------------------")
 	--PrintTable(filterTable)
 
-	if filterTable.order_type == DOTA_UNIT_ORDER_ATTACK_TARGET or filterTable.order_type == DOTA_UNIT_ORDER_CAST_TARGET then 
+	if filterTable.order_type == DOTA_UNIT_ORDER_ATTACK_TARGET then 
 
 		local order_unit = EntIndexToHScript(filterTable.units['0'])
 		local target_unit = EntIndexToHScript(filterTable.entindex_target)
@@ -324,6 +342,51 @@ function CSoulWarsGameMode:ExecuteOrderFilter(filterTable)
 				return false
 			end
 		end
+
+	elseif filterTable.order_type == DOTA_UNIT_ORDER_CAST_TARGET then
+		local target_unit 	= EntIndexToHScript(filterTable.entindex_target)
+		local entAbility 	= EntIndexToHScript(filterTable.entindex_ability)
+		local abilityName 	= entAbility:GetClassname()
+
+		local target_level = target_unit:GetLevel()
+		local ability_level = entAbility:GetLevel()
+
+		--print("Casted ability: ")
+		--print(abilityName)
+
+		-- basic creep domination / deny
+
+		-- chen_holy_persuasion
+		-- enchantress_enchant
+		-- enigma_demonic_conversion
+		if abilityName == "chen_holy_persuasion" 
+		or abilityName == "enchantress_enchant" 
+		or abilityName == "enigma_demonic_conversion" 
+		then
+			if ability_level < target_level then return false end
+		end
+
+		-- ultimate creep domination / deny 
+
+		-- life_stealer_infest
+		if abilityName == "life_stealer_infest" then
+			if target_level > 4 then 
+				return false 
+			else 
+				target_unit.lifestealer_infested = true
+			end 
+
+		end
+
+
+		if target_unit.unitType and target_unit.unitType == "Avatar" then
+			local order_unit = EntIndexToHScript(filterTable.units['0'])
+			local attackTrigger = Entities:FindByName(nil, target_unit.attackTrigger)
+			if not attackTrigger:IsTouching(order_unit) then
+				return false
+			end
+		end
+
 	end
 	
 	return true
@@ -450,6 +513,13 @@ function CSoulWarsGameMode:OnThink()
 			-- Turn the secret shop on
 			self.eRSSTrigger:Enable()
 
+			-- Enable the Radiant world layer
+			if self.WorldLayersEnabled == true and self.ActiveWorldLayer ~= self.sWLRadiant then
+				DoEntFire(self.ActiveWorldLayer, 	"HideWorldLayerAndDestroyEntities", "", 0.0, 	nil, nil)
+				DoEntFire(self.sWLRadiant, 			"ShowWorldLayerAndSpawnEntities", 	"", 0.0,   	nil, nil)
+				self.ActiveWorldLayer = self.sWLRadiant
+			end
+
 			-- Take any souls from any radiant players
 			for _, hero in pairs(HeroList:GetAllHeroes()) do
 				if hero:GetTeam() == DOTA_TEAM_GOODGUYS and self.eCPTrigger:IsTouching(hero) and hero:GetModifierStackCount("modifier_soul_shard_count", hero) > 0 then
@@ -468,6 +538,13 @@ function CSoulWarsGameMode:OnThink()
 			-- Turn the secret shop on
 			self.eDSSTrigger:Enable()
 
+			-- Enable the Radiant world layer
+			if self.WorldLayersEnabled == true and self.ActiveWorldLayer ~= self.sWLDire then
+				DoEntFire(self.ActiveWorldLayer, 	"HideWorldLayerAndDestroyEntities", "", 0.0, 	nil, nil)
+				DoEntFire(self.sWLDire, 			"ShowWorldLayerAndSpawnEntities", 	"", 0.0,   	nil, nil)
+				self.ActiveWorldLayer = self.sWLDire
+			end
+
 			-- Take any souls from any dire players
 			for _, hero in pairs(HeroList:GetAllHeroes()) do
 				if hero:GetTeam() == DOTA_TEAM_BADGUYS and self.eCPTrigger:IsTouching(hero) and hero:GetModifierStackCount("modifier_soul_shard_count", hero) > 0 then
@@ -480,6 +557,16 @@ function CSoulWarsGameMode:OnThink()
 			end
 		else
 			self.eDSSTrigger:Disable()
+		end
+
+		if self.bRadiantCaptured == false and self.bDireCaptured == false then
+
+			-- Enable the Radiant world layer
+			if self.WorldLayersEnabled == true and self.ActiveWorldLayer ~= self.sWLDefault then
+				DoEntFire(self.ActiveWorldLayer, 	"HideWorldLayerAndDestroyEntities", "", 0.0, 	nil, nil)
+				DoEntFire(self.sWLDefault, 			"ShowWorldLayerAndSpawnEntities", 	"", 0.0,   	nil, nil)
+				self.ActiveWorldLayer = self.sWLDefault
+			end
 		end
 
 		local DireAvatarLevel = 99 - ( self.RadiantSouls / SOULS_PER_LEVEL )

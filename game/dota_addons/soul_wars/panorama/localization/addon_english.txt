@@ -1,0 +1,5 @@
+"addon"
+{
+	"addon_game_name"						"SOUL WARS"
+	"addon_author"													"by wigguno"
+}

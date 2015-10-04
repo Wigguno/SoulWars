@@ -78,6 +78,7 @@
 			"modifier_sw_phoenix_burn"
 			{
 				"Passive"			"1"
+				"IsHidden"			"1"
 
 				"OnAttackLanded"
 				{

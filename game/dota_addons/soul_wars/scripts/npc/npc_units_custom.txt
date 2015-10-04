@@ -11,7 +11,7 @@
 		//----------------------------------------------------------------
 		"Model"						"models/development/invisiblebox.vmdl"	// Model.
 		"BaseClass"					"npc_dota_creature"
-		"Level"						"1"
+		"Level"						"99"
 		"ModelScale" 				"1"
 
 		// Abilities
@@ -297,7 +297,7 @@
 		"BaseClass"					"npc_dota_creature"
 		"SoundSet"					"n_creep_Melee"
 		"GameSoundsFile"			"soundevents/game_sounds_creeps.vsndevts"
-		"Level"						"1"
+		"Level"						"2"
 		"ModelScale" 				".7"
 
 		// Abilities
@@ -371,7 +371,7 @@
 		"BaseClass"					"npc_dota_creature"
 		"SoundSet"					"n_creep_Melee"
 		"GameSoundsFile"			"soundevents/game_sounds_creeps.vsndevts"
-		"Level"						"1"
+		"Level"						"2"
 		"ModelScale" 				".7"
 
 		// Abilities
@@ -445,7 +445,7 @@
 		"BaseClass"					"npc_dota_creature"
 		"SoundSet"					"n_creep_Ranged"
 		"GameSoundsFile"			"soundevents/game_sounds_creeps.vsndevts"
-		"Level"						"1"
+		"Level"						"3"
 		"ModelScale" 				"0.6"
 
 		// Abilities
@@ -518,7 +518,7 @@
 		"BaseClass"					"npc_dota_creature"
 		"SoundSet"					"n_creep_Ranged"
 		"GameSoundsFile"			"soundevents/game_sounds_creeps.vsndevts"
-		"Level"						"1"
+		"Level"						"3"
 		"ModelScale" 				"1"
 
 		// Abilities
@@ -591,7 +591,7 @@
 		"BaseClass"					"npc_dota_creature"
 		"SoundSet"					"n_creep_Ranged"
 		"GameSoundsFile"			"soundevents/game_sounds_creeps.vsndevts"
-		"Level"						"1"
+		"Level"						"4"
 		"ModelScale" 				"1"
 
 		// Abilities
@@ -664,7 +664,7 @@
 		"BaseClass"					"npc_dota_creature"
 		"SoundSet"					"n_creep_Melee"
 		"GameSoundsFile"			"soundevents/game_sounds_creeps.vsndevts"
-		"Level"						"1"
+		"Level"						"10"
 		"ModelScale" 				"0.5"
 
 		// Abilities
@@ -737,8 +737,10 @@
 		"BaseClass"					"npc_dota_creature"
 		"SoundSet"					"n_creep_Melee"
 		"GameSoundsFile"			"soundevents/game_sounds_creeps.vsndevts"
-		"Level"						"1"
+		"Level"						"10"
 		"ModelScale" 				"0.7"
+		"IsAncient"					"1"
+		"CanBeDominated"			"0"
 
 		// Abilities
 		//----------------------------------------------------------------
@@ -756,8 +758,8 @@
 		"AttackCapabilities"			"DOTA_UNIT_CAP_MELEE_ATTACK"
 		"AttackDamageMin"				"50"		// Damage range min.
 		"AttackDamageMax"				"70"		// Damage range max.	
-		"AttackRate"					"1.2"		// Speed of attack.
-		"AttackAnimationPoint"			"0.4"		// Normalized time in animation cycle to attack.
+		"AttackRate"					"0.7"		// Speed of attack.
+		"AttackAnimationPoint"			"0.3"		// Normalized time in animation cycle to attack.
 		"AttackAcquisitionRange"		"0"			// Range within a target can be acquired.
 		"AttackRange"					"120"		// Range within a target can be attacked.
 		"ProjectileModel"				""			// Particle system model for projectile.
@@ -782,9 +784,9 @@
 		// Status
 		//----------------------------------------------------------------
 		"StatusHealth"					"1000"		// Base health.
-		"StatusHealthRegen"				"1"			// Health regeneration rate.
+		"StatusHealthRegen"				"1"		// Health regeneration rate.
 		"StatusMana"					"100"		// Base mana.
-		"StatusManaRegen"				"0.5"		// Mana regeneration rate.		 
+		"StatusManaRegen"				"1"		// Mana regeneration rate.		 
 		
 		// Vision
 		//----------------------------------------------------------------
