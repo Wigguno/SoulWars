@@ -34,6 +34,8 @@
 		"item"		"item_ogre_axe"
 		"item"		"item_blade_of_alacrity"
 		"item"		"item_staff_of_wizardry"
+		
+		"item"		"item_research_tablet"	
 	}
 
 	"weapons_armor"
@@ -69,7 +71,7 @@
 		"item"		"item_blink"		
 		"item"		"item_shadow_amulet"	
 		"item"		"item_ring_of_health"
-		"item"		"item_void_stone"			
+		"item"		"item_void_stone"		
 	}	
 	
 	// Level 1 - Green Recipes

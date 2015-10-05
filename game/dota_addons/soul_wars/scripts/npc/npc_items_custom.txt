@@ -1,5 +1,61 @@
 "DOTAAbilities"
 {
+
+	// monolith research tablet
+	"item_research_tablet"
+	{
+		// General
+		//-------------------------------------------------------------------------------------------------------------
+		"ID"				"6003"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"BaseClass"						"item_datadriven"
+		"AbilityTextureName" 			"item_monolith_research_tablet"
+		"ItemQuality"    				"epic" // Purple 
+		"ItemAliases" 					"monolith;tablet"
+
+		// Item Info
+		//-------------------------------------------------------------------------------------------------------------
+		"ItemCost"						"1500"
+		"ItemPurchasable"				"1"
+		"ItemShopTags"					""
+		"ItemQuality"					""
+		"ItemKillable" 					"0" 
+		"ItemSellable" 					"0"
+		"ItemDroppable" 				"1"
+		
+		"ItemInitialCharges" 			"0" //How many charges should the item start with - Tango x3 
+		"ItemDisplayCharges" 			"0" //Hide the charges of the item - Aegis 
+		"ItemRequiresCharges" 			"0" //The active ability needs charges to be used - Urn
+		"ItemPermanent" 				"0"
+		"ItemShareability" 				"ITEM_FULLY_SHAREABLE"             //Rapier
+
+
+		// Stock
+		//-------------------------------------------------------------------------------------------------------------
+		
+		"ItemStockMax" 					"1" 
+		"ItemStockTime" 				"300"	// takes 5 minutes to show up, only 1 at a time
+		"ItemStockInitial" 				"0"
+
+		"OnOwnerDied"
+		{
+			"RunScript"
+			{
+				"ScriptFile"			"items.lua"
+				"Function"				"DropItemOnDeath"
+			}
+		}
+
+		"Modifiers"
+		{
+			"item_modifier_monolith_tablet_passive"
+			{
+				"Passive"				"1"
+				"IsHidden"				"0"
+			}
+		}
+	}
+
 	// Barricade
 	"item_sw_barricade"
 	{

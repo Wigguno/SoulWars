@@ -473,7 +473,10 @@ function CSoulWarsGameMode:OnThink()
 		for _, hero in pairs(HeroList:GetAllHeroes()) do
 			if self.eCPTrigger:IsTouching(hero) and not hero:IsClone() then -- Make sure only the main meepo counts
 				--print(hero:GetUnitName())
-				CPCount[hero:GetTeam()] = CPCount[hero:GetTeam()] + 1
+				local incr = 1
+
+				if hero:FindModifierByName("item_modifier_monolith_tablet_passive") ~= nil then incr = 2 end
+				CPCount[hero:GetTeam()] = CPCount[hero:GetTeam()] + incr
 			end
 		end 
 
