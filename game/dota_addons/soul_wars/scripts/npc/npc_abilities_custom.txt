@@ -16,12 +16,25 @@
 
 		"Modifiers"
 		{
-						
 			"modifier_soul_shard_count"
 			{				
 
 				"Passive"			"1"				
 				"TextureName"		"enchantress_impetus"
+			}
+
+			"modifier_double_soul_gathering"
+			{				
+				"TextureName"		"enchantress_impetus"
+
+				"OnDeath"
+				{
+					"RemoveModifier"
+					{
+						"Target"			"CASTER"
+						"ModifierName"		"modifier_double_soul_gathering"
+					}
+				}
 			}
 		}	
 	}

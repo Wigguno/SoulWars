@@ -334,7 +334,7 @@
 			"Name"			"RadiantNianSpawner"
 			"Creature" 		"npc_sw_creature_nian"
 			"Count"			"1"
-			"SoulCount"		"10"
+			"SoulCount"		"1000"
 			"WanderMin"		"5"
 			"WanderMax"		"10"
 
@@ -351,7 +351,7 @@
 			"Name"			"DireNianSpawner"
 			"Creature" 		"npc_sw_creature_nian"
 			"Count"			"1"
-			"SoulCount"		"10"
+			"SoulCount"		"1000"
 			"WanderMin"		"5"
 			"WanderMax"		"10"
 

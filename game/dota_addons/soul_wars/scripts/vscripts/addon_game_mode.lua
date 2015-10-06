@@ -229,15 +229,45 @@ function CSoulWarsGameMode:OnLastHit(keys)
 	local heroKiller = playerKiller:GetAssignedHero()
 
 	if creep.SoulBounty then
-		local oldstack = heroKiller:GetModifierStackCount("modifier_soul_shard_count", heroKiller) or 0
-		--print(heroKiller:GetUnitName() .. ": " .. oldstack .. " + " .. creep.SoulBounty)
-		local newstack = oldstack + creep.SoulBounty
 
-		heroKiller:SetModifierStackCount("modifier_soul_shard_count", nil, newstack)
+		-- if creep bounty is 1000 then we killed Nian
+		if creep.SoulBounty == 1000 then
 
-		local soulPart = ParticleManager:CreateParticle("particles/econ/items/shadow_fiend/sf_fire_arcana/sf_fire_arcana_necro_souls_hero.vpcf", PATTACH_POINT_FOLLOW, heroKiller)
-		ParticleManager:SetParticleControlEnt(soulPart, 0, creep, PATTACH_POINT_FOLLOW, "attach_hitloc", heroKiller:GetAbsOrigin(), true)
-		ParticleManager:SetParticleControlEnt(soulPart, 1, heroKiller, PATTACH_POINT_FOLLOW, "attach_hitloc", heroKiller:GetAbsOrigin(), true)
+			-- get the team of the killer
+			local teamKiller = playerKiller:GetTeam()
+
+			-- give 10 souls to every player on that team
+			for pid = 1, DOTA_MAX_TEAM_PLAYERS do
+				if PlayerResource:IsValidPlayerID(pid) and PlayerResource:GetTeam(pid) == teamKiller then
+					local teamhero = PlayerResource:GetPlayer(pid):GetAssignedHero()
+					local oldstack = teamhero:GetModifierStackCount("modifier_soul_shard_count", teamhero) or 0
+
+					--print(teamhero:GetUnitName() .. ": " .. oldstack .. " + " .. creep.SoulBounty)
+					local newstack = oldstack + 10
+
+					teamhero:SetModifierStackCount("modifier_soul_shard_count", nil, newstack)
+				end
+			end
+
+			-- give double soul gathering to the killa
+			local ab = heroKiller:FindAbilityByName("soul_wars_helper")
+			ab:ApplyDataDrivenModifier(heroKiller, heroKiller, "modifier_double_soul_gathering",{duration=60})
+
+		else
+			local oldstack = heroKiller:GetModifierStackCount("modifier_soul_shard_count", heroKiller) or 0
+
+			local bounty = creep.SoulBounty
+			if heroKiller:FindModifierByName("modifier_double_soul_gathering") ~= nil then bounty = 2 * bounty end
+			--print(heroKiller:GetUnitName() .. ": " .. oldstack .. " + " .. bounty)
+
+			local newstack = oldstack + bounty
+
+			heroKiller:SetModifierStackCount("modifier_soul_shard_count", nil, newstack)
+
+			local soulPart = ParticleManager:CreateParticle("particles/econ/items/shadow_fiend/sf_fire_arcana/sf_fire_arcana_necro_souls_hero.vpcf", PATTACH_POINT_FOLLOW, heroKiller)
+			ParticleManager:SetParticleControlEnt(soulPart, 0, creep, PATTACH_POINT_FOLLOW, "attach_hitloc", heroKiller:GetAbsOrigin(), true)
+			ParticleManager:SetParticleControlEnt(soulPart, 1, heroKiller, PATTACH_POINT_FOLLOW, "attach_hitloc", heroKiller:GetAbsOrigin(), true)
+		end
 	end
 end
 
