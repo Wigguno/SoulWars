@@ -248,32 +248,4 @@
 			}
 		}
 	}
-	
-	//=================================================================================================================
-	// Ability: Barricade self destruct
-	//=================================================================================================================
-	"barricade_self_destruct"
-	{
-		// General
-		//-------------------------------------------------------------------------------------------------------------
-		//"ID"						"6000"												// unique ID number for this ability.  Do not change this once established or it will invalidate collected stats.												// unique ID number for this ability.  Do not change this once established or it will invalidate collected stats.
-		"BaseClass"					"ability_datadriven"
-		"MaxLevel"					"1"
-		
-		"AbilityType"				"DOTA_ABILITY_TYPE_BASIC"					
-		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET" 
-		"AbilityUnitTargetTeam"		"DOTA_UNIT_TARGET_TEAM_FRIENDLY"
-		"AbilityUnitTargetType"		"DOTA_UNIT_TARGET_BASIC"
-		"AbilityTextureName"		"axe_battle_hunger"
-			
-		"OnSpellStart"
-		{
-			"RunScript"
-			{
-				"ScriptFile"		"soul_wars_abilities.lua"
-				"Function"			"abilityBarricadeDestruct"
-				"Target"			"UNIT"
-			}
-		}
-	}
 }

@@ -1,5 +1,5 @@
 "addon"
 {
-	"addon_game_name"						"SOUL WARS"
+	"addon_game_name"						"SOUL WARS REBORN"
 	"addon_author"													"by wigguno"
 }

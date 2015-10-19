@@ -1,7 +1,3 @@
-//This KV file was created by kvui
-//A visual KV editor for Dota 2
-//By wigguno
-
 "CustomHeroList"
 {
 	"npc_dota_hero_abaddon"	"1"

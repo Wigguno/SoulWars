@@ -1,12 +1,10 @@
 "AddonInfo"
-
 {
-
-	"addontitle" 	"Soul Wars"
+	"addontitle" 	"Soul Wars Reborn"
 	"maps"			"small"		
 	"IsPlayable"	"1"
 	"small"
 	{
-					"MaxPlayers"                    "10"
+		"MaxPlayers"                    "10"
 	}
 }
